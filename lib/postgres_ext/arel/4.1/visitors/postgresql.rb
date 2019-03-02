@@ -12,8 +12,11 @@ module Arel
                  # which won't exist for aliased table when used with Single Table
                  # Inheritance. see dockyard/postgres_ext#154 (This issue has been removed)
                  else
-                  cache = a.relation.connection.schema_cache
-                  if cache.table_exists? a.relation.name
+                  type_caster = a.relation.send :type_caster
+                  type = type_caster.send :types
+                  connection = type.connection
+                  cache = connection.schema_cache
+                  if cache.data_source_exists? a.relation.name
                     cache.columns(a.relation.name).find { |col| col.name == a.name.to_s }
                   end
                  end
