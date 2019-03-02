@@ -14,7 +14,7 @@ module Arel
       end
 
       def visit_Arel_Nodes_Contains o, collector
-        left_column = o.left.relation.engine.columns.find do |col|
+        left_column = o.left.relation.columns.find do |col|
           col.name == o.left.name.to_s || col.name == o.left.relation.name.to_s
         end
 
